@@ -275,7 +275,10 @@ def on_mouse_press(x, y, button, modifiers):
                 captured[current_frame-1] = False
                 for i in range(current_frame-1, len(captured)):
                     captured[i] = False
-                current_frame -= 1
+                if current_frame > 1:
+                    current_frame -= 1
+                else:
+                    current_frame = 1
             else:
                 print("Cannot Delete Frame - At Least One Frame Must Exist")
         elif 550 < y < 600:
