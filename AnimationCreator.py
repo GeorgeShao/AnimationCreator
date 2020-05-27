@@ -3,7 +3,6 @@ import sys
 import math
 import arcade
 import PySimpleGUI as gui
-import render_video
 
 # Main window width & height
 WIDTH = 1000
@@ -44,26 +43,44 @@ try:
 except:
     print("Directory \"res/scenes\" Already Exists")
 
+def get_chosen_color():
+    global chosen_color_column, chosen_color_row, colors_col1, colors_col2
+
+    # Return user-chosen color
+    if chosen_color_column == 1:
+        return colors_col1[-int(chosen_color_row)]
+    elif chosen_color_column == 2:
+        return colors_col2[-int(chosen_color_row)]
+    else:
+        return arcade.color.BLACK
+
 def on_update(delta_time):
     pass
+
 
 def on_draw():
     pass
 
+
 def on_mouse_press():
     pass
+
 
 def on_mouse_release():
     pass
 
+
 def on_key_press():
     pass
+
 
 def on_key_release():
     pass
 
+
 def on_mouse_drag():
     pass
+
 
 def render_toolbar_dividers():
     global toolbar
