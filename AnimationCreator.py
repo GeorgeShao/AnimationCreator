@@ -59,7 +59,50 @@ def on_update(delta_time):
 
 
 def on_draw():
-    pass
+    global toolbar, frames, current_frame, linked_scenes
+
+    # Render entire toolbar, all user-drawn shapes
+    arcade.start_render()
+    
+    if (current_frame-1) in linked_scenes.keys():
+        background_texture = arcade.load_texture("res/scenes/" + linked_scenes[current_frame-1] + ".png")
+        arcade.draw_texture_rectangle(center_x=500, center_y=400, width=800, height=800, texture=background_texture)
+    try:
+        frames[current_frame-1].draw()
+    except Exception as e:
+        print("ERROR:", e)
+    try:
+        toolbar.draw()
+    except Exception as e:
+        print("ERROR:", e)
+    
+    arcade.draw_text("Total # Frames:", 905, 731, color=arcade.color.BLACK, font_size=12)
+    arcade.draw_text(str(len(frames)), 910, 705, color=arcade.color.BLACK, font_size=20)
+    arcade.draw_text("Current Frame:", 905, 681, color=arcade.color.BLACK, font_size=12)
+    arcade.draw_text(str(current_frame), 910, 655, color=arcade.color.BLACK, font_size=20)
+
+    arcade.draw_text("PREV FRM", 902, 631, color=arcade.color.BLACK, font_size=9)
+    arcade.draw_text("NEXT FRM", 952, 631, color=arcade.color.BLACK, font_size=9)
+
+    arcade.draw_text("UNDO", 910, 581, color=arcade.color.BLACK, font_size=9)
+    arcade.draw_text("CLR FRM", 955, 581, color=arcade.color.BLACK, font_size=9)
+
+    arcade.draw_text("DEL FRM", 904, 531, color=arcade.color.BLACK, font_size=9)
+    arcade.draw_text("NEW FRM", 952, 531, color=arcade.color.BLACK, font_size=9)
+
+    arcade.draw_text("LOAD SCN", 902, 481, color=arcade.color.BLACK, font_size=9)
+    arcade.draw_text("NEW SCN", 954, 481, color=arcade.color.BLACK, font_size=9)
+
+    if captured[current_frame-1]:
+        arcade.draw_xywh_rectangle_filled(900, 750, 100, 50, color=arcade.color.GREEN)
+        arcade.draw_text("CAPTURED", 907, 765, color=arcade.color.BLACK, font_size=16)
+    else:
+        arcade.draw_text("CAPTURE", 912, 765, color=arcade.color.BLACK, font_size=16)
+    if all(captured):
+        arcade.draw_xywh_rectangle_filled(0, 750, 100, 50, color=arcade.color.GREEN)
+    arcade.draw_text("RENDER", 13, 765, color=arcade.color.BLACK, font_size=18)
+
+    arcade.draw_text("ABOUT", 918, 17, color=arcade.color.BLACK, font_size=18)
 
 
 def on_mouse_press():
