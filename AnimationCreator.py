@@ -44,7 +44,6 @@ try:
 except:
     print("Directory \"res/scenes\" Already Exists")
 
-
 def list_scenes():
     path = sys.argv[0][:-20] + "/res/scenes"
     files = []
