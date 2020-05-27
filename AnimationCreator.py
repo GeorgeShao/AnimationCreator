@@ -31,6 +31,17 @@ frames = []
 linked_scenes = dict()
 captured = [False]
 
+
+def list_scenes():
+    path = sys.argv[0][:-20] + "/res/scenes"
+    files = []
+    for r, d, f in os.walk(path):
+        for f1 in f:
+            f1 = str(f1).replace(".png","")
+            files.append(f1)
+    return files
+
+
 # Create resource directories
 try:
     os.makedirs("res/frames")
