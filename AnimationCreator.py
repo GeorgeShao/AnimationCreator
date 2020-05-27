@@ -62,6 +62,9 @@ def on_key_press():
 def on_key_release():
     pass
 
+def on_mouse_drag():
+    pass
+
 def render_toolbar_dividers():
     global toolbar
 
@@ -82,6 +85,26 @@ def render_toolbar_dividers():
         toolbar.append(arcade.create_line(0, i, 100, i, arcade.color.BLACK))
         toolbar.append(arcade.create_line(900, i, 1000, i, arcade.color.BLACK))
 
+
+def render_toolbar_shapes():
+    global toolbar
+
+    # Render toolbar rectangles
+    toolbar.append(arcade.create_rectangle_filled(25, 725, 35, 15, arcade.color.BLUE))
+    toolbar.append(arcade.create_rectangle_outline(25, 575, 35, 15, arcade.color.BLUE))
+
+    # Render toolbar circles
+    toolbar.append(arcade.create_ellipse_filled(25, 675, 13, 13, arcade.color.BLUE))
+    toolbar.append(arcade.create_ellipse_outline(25, 525, 13, 13, arcade.color.BLUE))
+
+    # Render toolbar ellipses
+    toolbar.append(arcade.create_ellipse_filled(25, 625, 18, 8, arcade.color.BLUE))
+    toolbar.append(arcade.create_ellipse_outline(25, 475, 18, 8, arcade.color.BLUE))
+
+    # Render toolbar lines
+    for i in range(6):
+        toolbar.append(arcade.create_line(60, 710-(50*i), 90, 740-(50*i), arcade.color.BLUE, line_width=(2**i)))
+
 def setup():
     global toolbar, frames
 
@@ -101,6 +124,10 @@ def setup():
     window.on_mouse_press = on_mouse_press
     window.on_mouse_release = on_mouse_release
     window.on_mouse_drag = on_mouse_drag
+
+    # Render toolbar
+    render_toolbar_dividers()
+    render_toolbar_shapes()
 
     arcade.run()
 
