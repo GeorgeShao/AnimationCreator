@@ -105,6 +105,16 @@ def render_toolbar_shapes():
     for i in range(6):
         toolbar.append(arcade.create_line(60, 710-(50*i), 90, 740-(50*i), arcade.color.BLUE, line_width=(2**i)))
 
+
+def render_toolbar_colors():
+    global toolbar, colors_col1, colors_col2
+
+    # Render toolbar colors
+    for i in range(9):
+        toolbar.append(arcade.create_rectangle_filled(25, 425-(50*i), 50, 50, colors_col1[i]))
+        toolbar.append(arcade.create_rectangle_filled(75, 425-(50*i), 50, 50, colors_col2[i]))
+
+
 def setup():
     global toolbar, frames
 
