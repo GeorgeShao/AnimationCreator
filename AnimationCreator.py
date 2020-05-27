@@ -132,8 +132,16 @@ def on_key_release():
     pass
 
 
-def on_mouse_drag():
-    pass
+def on_mouse_drag(x, y, dx, dy, button, modifiers):
+    if 100 < x < 900:
+        if chosen_shape_column == 2:
+            start_x = x
+            start_y = y
+            end_x = x + dx
+            end_y = y + dy
+            drawing_width = 2**(15-(chosen_shape_row))
+            frames[current_frame-1].append(arcade.create_line(start_x, start_y, end_x, end_y, get_chosen_color(), drawing_width))
+            captured[current_frame-1] = False
 
 
 def render_toolbar_dividers():
