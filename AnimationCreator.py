@@ -62,6 +62,26 @@ def on_key_press():
 def on_key_release():
     pass
 
+def render_toolbar_dividers():
+    global toolbar
+
+    # Render left toolbar
+    toolbar.append(arcade.create_rectangle_filled(50, 400, 100, 800, arcade.color.COOL_GREY))
+
+    # Render right toolbar
+    toolbar.append(arcade.create_rectangle_filled(950, 400, 100, 800, arcade.color.COOL_GREY))
+
+    # Render left toolbar middle divider
+    toolbar.append(arcade.create_line(50, 0, 50, 750, arcade.color.BLACK))
+
+    # Render right toolbar middle divider
+    toolbar.append(arcade.create_line(950, 200, 950, 650, arcade.color.BLACK))
+
+    # Render left and right toolbar mini dividers
+    for i in range(0, 800, 50):
+        toolbar.append(arcade.create_line(0, i, 100, i, arcade.color.BLACK))
+        toolbar.append(arcade.create_line(900, i, 1000, i, arcade.color.BLACK))
+
 def setup():
     global toolbar, frames
 
