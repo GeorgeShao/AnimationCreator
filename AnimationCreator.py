@@ -43,3 +43,47 @@ try:
     print("Directory \"res/scenes\" Created")
 except:
     print("Directory \"res/scenes\" Already Exists")
+
+def on_update(delta_time):
+    pass
+
+def on_draw():
+    pass
+
+def on_mouse_press():
+    pass
+
+def on_mouse_release():
+    pass
+
+def on_key_press():
+    pass
+
+def on_key_release():
+    pass
+
+def setup():
+    global toolbar, frames
+
+    arcade.open_window(WIDTH, HEIGHT, "AnimationCreator")
+    arcade.set_background_color(arcade.color.WHITE)
+    arcade.schedule(on_update, 1/60)
+
+    # Create Vertex Buffer Object (VBO) shape lists
+    frames.append(arcade.ShapeElementList())
+    toolbar = arcade.ShapeElementList()
+
+    # Override arcade window methods
+    window = arcade.get_window()
+    window.on_draw = on_draw
+    window.on_key_press = on_key_press
+    window.on_key_release = on_key_release
+    window.on_mouse_press = on_mouse_press
+    window.on_mouse_release = on_mouse_release
+    window.on_mouse_drag = on_mouse_drag
+
+    arcade.run()
+
+
+if __name__ == '__main__':
+    setup()
