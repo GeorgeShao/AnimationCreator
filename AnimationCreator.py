@@ -3,6 +3,7 @@ import sys
 import math
 import arcade
 import PySimpleGUI as gui
+import render_video
 
 # Main window width & height
 WIDTH = 1000
@@ -31,17 +32,6 @@ frames = []
 linked_scenes = dict()
 captured = [False]
 
-
-def list_scenes():
-    path = sys.argv[0][:-20] + "/res/scenes"
-    files = []
-    for r, d, f in os.walk(path):
-        for f1 in f:
-            f1 = str(f1).replace(".png","")
-            files.append(f1)
-    return files
-
-
 # Create resource directories
 try:
     os.makedirs("res/frames")
@@ -54,6 +44,17 @@ try:
 except:
     print("Directory \"res/scenes\" Already Exists")
 
+
+def list_scenes():
+    path = sys.argv[0][:-20] + "/res/scenes"
+    files = []
+    for r, d, f in os.walk(path):
+        for f1 in f:
+            f1 = str(f1).replace(".png","")
+            files.append(f1)
+    return files
+
+
 def get_chosen_color():
     global chosen_color_column, chosen_color_row, colors_col1, colors_col2
 
@@ -64,6 +65,7 @@ def get_chosen_color():
         return colors_col2[-int(chosen_color_row)]
     else:
         return arcade.color.BLACK
+
 
 def on_update(delta_time):
     pass
@@ -116,34 +118,6 @@ def on_draw():
     arcade.draw_text("ABOUT", 918, 17, color=arcade.color.BLACK, font_size=18)
 
 
-def on_mouse_press():
-    pass
-
-
-def on_mouse_release():
-    pass
-
-
-def on_key_press():
-    pass
-
-
-def on_key_release():
-    pass
-
-
-def on_mouse_drag(x, y, dx, dy, button, modifiers):
-    if 100 < x < 900:
-        if chosen_shape_column == 2:
-            start_x = x
-            start_y = y
-            end_x = x + dx
-            end_y = y + dy
-            drawing_width = 2**(15-(chosen_shape_row))
-            frames[current_frame-1].append(arcade.create_line(start_x, start_y, end_x, end_y, get_chosen_color(), drawing_width))
-            captured[current_frame-1] = False
-
-
 def render_toolbar_dividers():
     global toolbar
 
@@ -194,6 +168,206 @@ def render_toolbar_colors():
         toolbar.append(arcade.create_rectangle_filled(75, 425-(50*i), 50, 50, colors_col2[i]))
 
 
+def on_key_press(key, modifiers):
+    pass
+
+
+def on_key_release(key, modifiers):
+    pass
+
+
+def on_mouse_drag(x, y, dx, dy, button, modifiers):
+    if 100 < x < 900:
+        if chosen_shape_column == 2:
+            start_x = x
+            start_y = y
+            end_x = x + dx
+            end_y = y + dy
+            drawing_width = 2**(15-(chosen_shape_row))
+            frames[current_frame-1].append(arcade.create_line(start_x, start_y, end_x, end_y, get_chosen_color(), drawing_width))
+            captured[current_frame-1] = False
+
+
+def on_mouse_press(x, y, button, modifiers):
+    global frames, current_frame, linked_scenes, captured
+    global chosen_color_column, chosen_shape_column, chosen_color_row, chosen_shape_row
+    global start_x, start_y, end_x, end_y
+
+    # Determine what to do based on the location of the user's click
+    if 100 < x < 900:
+        start_x = x
+        start_y = y
+        captured[current_frame-1] = False
+    elif x <= 50:
+        if 450 <= y <= 750:
+            chosen_shape_row = y//50 + 1
+            chosen_shape_column = 1
+        elif y <= 450:
+            chosen_color_row = y/50 + 1
+            chosen_color_column = 1
+    elif x <= 100:
+        if 450 <= y <= 750:
+            chosen_shape_row = y//50 + 1
+            chosen_shape_column = 2
+        elif y <= 450:
+            chosen_color_row = y//50 + 1
+            chosen_color_column = 2
+    elif x >= 950:
+        if 450 < y < 500:
+            gui.theme('Dark Blue 3')
+            layout = [  [gui.Text("Scenes:")],
+                        [gui.Listbox(values=list(list_scenes()), size=(30,6))],
+                        [gui.Text("New Scene Name:"), gui.InputText()],
+                        [gui.Button('Create New Scene'), gui.Button('Cancel')]  ]
+            window = gui.Window('AnimationCreator', layout)
+            while True:
+                event, values = window.read()
+                if event in (None, 'Cancel'):
+                    break
+                if str(values[1]).strip() != "":
+                    image = arcade.get_image(100, 0, 800, 800)
+                    image.save(f"res/scenes/{str(values[1]).strip()}.png", "PNG")
+                    linked_scenes[current_frame-1] = str(values[1]).strip()
+                    frames[current_frame-1] = arcade.ShapeElementList()
+                    print('New Scene Created From Current Frame:', str(values[1]).strip())
+                    break
+            window.close()
+        elif 500 < y < 550:
+            frames.append(arcade.ShapeElementList())
+            current_frame = len(frames)
+            print("New Frame Created")
+            captured.append(False)
+        elif 550 < y < 600:
+            frames[current_frame-1] = arcade.ShapeElementList()
+            if (current_frame-1) in linked_scenes:
+                del linked_scenes[current_frame-1]
+            print("Current Frame Cleared")
+            captured[current_frame-1] = False
+        elif 600 < y < 650:
+            if current_frame < len(frames):
+                current_frame += 1
+                print("Forward Frame")
+            else:
+                print("Cannot Forward Frame - Reached End of Timeline")
+    elif x >= 900:
+        if 450 < y < 500:
+            gui.theme('Dark Blue 3')
+            layout = [  [gui.Text("Scenes:")],
+                        [gui.Listbox(values=list(list_scenes()), size=(30,6))],
+                        [gui.Button('Load Scene'), gui.Button('Cancel')]  ]
+            window = gui.Window('AnimationCreator', layout)
+            while True:
+                event, values = window.read()
+                if event in (None, 'Cancel'):
+                    break
+                if str(values[0])[2:-2] != "":
+                    linked_scenes[current_frame-1] = str(values[0])[2:-2]
+                    frames[current_frame-1] = arcade.ShapeElementList()
+                    print('Loaded Scene:', str(values[0])[2:-2])
+                    break
+            window.close()
+            captured[current_frame-1] = False
+        elif 500 < y < 550:
+            if len(frames) > 1:
+                del frames[current_frame-1]
+                if str(current_frame-1) in linked_scenes.keys():
+                    del linked_scenes[current_frame-1]
+                print("Deleted Current Frame")
+                captured[current_frame-1] = False
+                for i in range(current_frame-1, len(captured)):
+                    captured[i] = False
+                current_frame -= 1
+            else:
+                print("Cannot Delete Frame - At Least One Frame Must Exist")
+        elif 550 < y < 600:
+            frames[current_frame-1].remove(frames[current_frame-1][-1])
+            print("Last Drawing on Current Frame Undone")
+            captured[current_frame-1] = False
+        elif 600 < y < 650:
+            if current_frame > 1:
+                current_frame -= 1
+                print("Backward Frame")
+            else:
+                print("Cannot Backward Frame - Reached Beginning of Timeline")
+    
+    # Capture functionality
+    if x > 900 and y > 750:
+        image = arcade.get_image(100, 0, 800, 800)
+        current_frame_name = (10-len(str(current_frame)))*"0" + str(current_frame)
+        image.save(f"res/frames/{current_frame_name}.png", "PNG")
+        print("Captured Frame")
+        captured[current_frame-1] = True
+
+    # Render functionality
+    if x < 100 and y > 750:
+        if all(captured):
+            gui.theme('Dark Blue 3')
+            layout = [  [gui.Text("Frames per Image (positive integer): "), gui.InputText("20")],
+                        [gui.Button('Start Render'), gui.Button('Cancel')]  ]
+            window = gui.Window('AnimationCreator', layout)
+            while True:
+                event, values = window.read()
+                if event in (None, 'Cancel'):
+                    break
+                if event in (None, 'Start Render'):
+                    if str(values[0]) != "" and str(values[0]).isdigit():
+                        print(f"Rendering at {int(values[0])} frames per image...")
+                        render_video.run(int(values[0]))
+                    else:
+                        print(f"Rendering at 20 frames per image...")
+                        render_video.run(20)
+                    print("Render Complete")
+                    break
+            window.close()
+        else:
+            gui.theme('Dark Blue 3')
+            layout = [  [gui.Text("Please Capture All Frames Before Rendering")],
+                        [gui.Button('Ok')]  ]
+            window = gui.Window('AnimationCreator', layout)
+            while True:
+                event, values = window.read()
+                if event in (None, 'Ok'):
+                    break
+            window.close()
+
+    # About button functionality
+    if x > 900 and y < 50:
+        gui.theme('Dark Blue 3')
+        layout = [  [gui.Text("AnimationCreator was created by George Shao")],
+                    [gui.Text("Find out more at: https://github.com/GeorgeShao/AnimationCreator")],
+                    [gui.Button('Ok')]  ]
+        window = gui.Window('AnimationCreator', layout)
+        while True:
+            event, values = window.read()
+            if event in (None, 'Ok'):
+                break
+        window.close()
+        
+
+def on_mouse_release(x, y, button, modifiers):
+    global toolbar, frames, current_frame
+    global start_x, start_y, end_x, end_y
+
+    if 100 < x < 900:
+        end_x = x
+        end_y = y
+        if chosen_shape_column == 1:
+            if chosen_shape_row == 15:
+                frames[current_frame-1].append(arcade.create_rectangle_filled((start_x+end_x)//2, (start_y+end_y)//2, abs(end_x-start_x), abs(end_y-start_y), get_chosen_color()))
+            if chosen_shape_row == 14:
+                radius = round(math.sqrt(abs(end_x-start_x)** 2 + abs(end_y-start_y)**2))
+                frames[current_frame-1].append(arcade.create_ellipse_filled(start_x, start_y, radius, radius, get_chosen_color()))
+            if chosen_shape_row == 13:
+                frames[current_frame-1].append(arcade.create_ellipse_filled(start_x, start_y, abs(end_x-start_x), abs(end_y-start_y), get_chosen_color()))
+            if chosen_shape_row == 12:
+                frames[current_frame-1].append(arcade.create_rectangle_outline((start_x+end_x)//2, (start_y+end_y)//2, abs(end_x-start_x), abs(end_y-start_y), get_chosen_color()))
+            if chosen_shape_row == 11:
+                radius = round(math.sqrt(abs(end_x-start_x)** 2 + abs(end_y-start_y)**2))
+                frames[current_frame-1].append(arcade.create_ellipse_outline(start_x, start_y, radius, radius, get_chosen_color()))
+            if chosen_shape_row == 10:
+                frames[current_frame-1].append(arcade.create_ellipse_outline(start_x, start_y, abs(end_x-start_x), abs(end_y-start_y), get_chosen_color()))
+
+
 def setup():
     global toolbar, frames
 
@@ -217,6 +391,7 @@ def setup():
     # Render toolbar
     render_toolbar_dividers()
     render_toolbar_shapes()
+    render_toolbar_colors()
 
     arcade.run()
 
