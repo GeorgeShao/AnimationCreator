@@ -308,9 +308,13 @@ def on_mouse_press(x, y, button, modifiers):
             else:
                 print("Cannot Delete Frame - At Least One Frame Must Exist")
         elif 550 < y < 600:
-            frames[current_frame-1].remove(frames[current_frame-1][-1])
-            print("Last Drawing on Current Frame Undone")
-            captured[current_frame-1] = False
+            try:
+                frames[current_frame-1].remove(frames[current_frame-1][-1])
+                print("Last Drawing on Current Frame Undone")
+                captured[current_frame-1] = False
+            except:
+                print("Cannot Undo Last Drawing on Frame - No Moves to Undo")
+                pass
         elif 600 < y < 650:
             if current_frame > 1:
                 current_frame -= 1
