@@ -44,6 +44,9 @@ try:
 except:
     print("Directory \"data/scenes\" Already Exists")
 
+# Load sound(s)
+snd_btn_press = arcadeplus.load_sound("res/audio/btn_press.mp3")
+
 def list_scenes():
     path = sys.argv[0][:-20] + "/data/scenes"
     files = []
@@ -217,6 +220,7 @@ def on_mouse_press(x, y, button, modifiers):
     global frames, current_frame, linked_scenes, captured
     global chosen_color_column, chosen_shape_column, chosen_color_row, chosen_shape_row
     global start_x, start_y, end_x, end_y
+    global snd_btn_press
 
     # Determine what to do based on the location of the user's click
     if 100 < x < 900:
@@ -225,16 +229,20 @@ def on_mouse_press(x, y, button, modifiers):
         captured[current_frame-1] = False
     elif x <= 50:
         if 450 <= y <= 750:
+            arcadeplus.play_sound(snd_btn_press)
             chosen_shape_row = y//50 + 1
             chosen_shape_column = 1
         elif y <= 450:
+            arcadeplus.play_sound(snd_btn_press)
             chosen_color_row = y/50 + 1
             chosen_color_column = 1
     elif x <= 100:
         if 450 <= y <= 750:
+            arcadeplus.play_sound(snd_btn_press)
             chosen_shape_row = y//50 + 1
             chosen_shape_column = 2
         elif y <= 450:
+            arcadeplus.play_sound(snd_btn_press)
             chosen_color_row = y//50 + 1
             chosen_color_column = 2
     elif x >= 950:
@@ -258,17 +266,20 @@ def on_mouse_press(x, y, button, modifiers):
                     break
             window.close()
         elif 500 < y < 550:
+            arcadeplus.play_sound(snd_btn_press)
             frames.append(arcadeplus.ShapeElementList())
             current_frame = len(frames)
             print("New Frame Created")
             captured.append(False)
         elif 550 < y < 600:
+            arcadeplus.play_sound(snd_btn_press)
             frames[current_frame-1] = arcadeplus.ShapeElementList()
             if (current_frame-1) in linked_scenes:
                 del linked_scenes[current_frame-1]
             print("Current Frame Cleared")
             captured[current_frame-1] = False
         elif 600 < y < 650:
+            arcadeplus.play_sound(snd_btn_press)
             if current_frame < len(frames):
                 current_frame += 1
                 print("Forward Frame")
@@ -293,6 +304,7 @@ def on_mouse_press(x, y, button, modifiers):
             window.close()
             captured[current_frame-1] = False
         elif 500 < y < 550:
+            arcadeplus.play_sound(snd_btn_press)
             if len(frames) > 1:
                 del frames[current_frame-1]
                 if str(current_frame-1) in linked_scenes.keys():
@@ -308,6 +320,7 @@ def on_mouse_press(x, y, button, modifiers):
             else:
                 print("Cannot Delete Frame - At Least One Frame Must Exist")
         elif 550 < y < 600:
+            arcadeplus.play_sound(snd_btn_press)
             try:
                 frames[current_frame-1].remove(frames[current_frame-1][-1])
                 print("Last Drawing on Current Frame Undone")
@@ -316,6 +329,7 @@ def on_mouse_press(x, y, button, modifiers):
                 print("Cannot Undo Last Drawing on Frame - No Moves to Undo")
                 pass
         elif 600 < y < 650:
+            arcadeplus.play_sound(snd_btn_press)
             if current_frame > 1:
                 current_frame -= 1
                 print("Backward Frame")
@@ -324,6 +338,7 @@ def on_mouse_press(x, y, button, modifiers):
     
     # Capture functionality
     if x > 900 and y > 750:
+        arcadeplus.play_sound(snd_btn_press)
         image = arcadeplus.get_image(100, 0, 800, 800)
         current_frame_name = (10-len(str(current_frame)))*"0" + str(current_frame)
         image.save(f"data/frames/{current_frame_name}.png", "PNG")
@@ -332,6 +347,7 @@ def on_mouse_press(x, y, button, modifiers):
 
     # Render functionality
     if x < 100 and y > 750:
+        arcadeplus.play_sound(snd_btn_press)
         if all(captured):
             gui.theme('Dark Blue 3')
             layout = [  [gui.Text("Frames per Image (positive integer): "), gui.InputText("20")],
@@ -364,6 +380,7 @@ def on_mouse_press(x, y, button, modifiers):
 
     # About button functionality
     if x > 900 and y < 50:
+        arcadeplus.play_sound(snd_btn_press)
         gui.theme('Dark Blue 3')
         layout = [  [gui.Text("AnimationCreator was created by George Shao")],
                     [gui.Text("Find out more at: https://github.com/GeorgeShao/AnimationCreator")],
