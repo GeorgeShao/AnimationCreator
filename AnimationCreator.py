@@ -88,6 +88,11 @@ def on_draw():
     except Exception as e:
         print("ERROR:", e)
     
+    render_toolbar_icons()
+    render_toolbar_text()
+
+
+def render_toolbar_text():
     arcadeplus.draw_text("Total # Frames:", 905, 731, color=arcadeplus.color.BLACK, font_size=12)
     arcadeplus.draw_text(str(len(frames)), 910, 705, color=arcadeplus.color.BLACK, font_size=20)
     arcadeplus.draw_text("Current Frame:", 905, 681, color=arcadeplus.color.BLACK, font_size=12)
@@ -115,6 +120,27 @@ def on_draw():
     arcadeplus.draw_text("RENDER", 13, 765, color=arcadeplus.color.BLACK, font_size=18)
 
     arcadeplus.draw_text("ABOUT", 918, 17, color=arcadeplus.color.BLACK, font_size=18)
+
+
+def render_toolbar_icons():
+    img_names = ["PREV FRM", "UNDO", "DEL FRM", "LOAD SCN"]
+    index = 0
+    for img_name in img_names:
+        try:
+            background_texture = arcadeplus.load_texture("icons/" + img_name + ".png")
+            arcadeplus.draw_texture_rectangle(center_x=925, center_y=625 - (index*50), width=40, height=40, texture=background_texture)
+        except:
+            pass
+        index += 1
+    img_names = ["NEXT FRM", "CLR FRM", "NEW FRM", "NEW SCN"]
+    index = 0
+    for img_name in img_names:
+        try:
+            background_texture = arcadeplus.load_texture("icons/" + img_name + ".png")
+            arcadeplus.draw_texture_rectangle(center_x=975, center_y=625 - (index*50), width=40, height=40, texture=background_texture)
+        except:
+            pass
+        index += 1
 
 
 def render_toolbar_dividers():
@@ -324,11 +350,11 @@ def on_mouse_press(x, y, button, modifiers):
         else:
             gui.theme('Dark Blue 3')
             layout = [  [gui.Text("Please Capture All Frames Before Rendering")],
-                        [gui.Button('Ok')]  ]
+                        [gui.Button('Okay')]  ]
             window = gui.Window('AnimationCreator', layout)
             while True:
                 event, values = window.read()
-                if event in (None, 'Ok'):
+                if event in (None, 'Okay'):
                     break
             window.close()
 
@@ -337,11 +363,11 @@ def on_mouse_press(x, y, button, modifiers):
         gui.theme('Dark Blue 3')
         layout = [  [gui.Text("AnimationCreator was created by George Shao")],
                     [gui.Text("Find out more at: https://github.com/GeorgeShao/AnimationCreator")],
-                    [gui.Button('Ok')]  ]
+                    [gui.Button('Okay')]  ]
         window = gui.Window('AnimationCreator', layout)
         while True:
             event, values = window.read()
-            if event in (None, 'Ok'):
+            if event in (None, 'Okay'):
                 break
         window.close()
         
@@ -394,6 +420,8 @@ def setup():
     render_toolbar_dividers()
     render_toolbar_shapes()
     render_toolbar_colors()
+    render_toolbar_icons()
+    render_toolbar_text()
 
     arcadeplus.run()
 
