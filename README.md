@@ -1,6 +1,9 @@
 # AnimationCreator
 Simple animation tool that creates a video animation from user-drawn images.
 
+Linked below is a short example animation that I made entirely using AnimationCreator. In this animation, a meteor falls from the sky and lands in the ocean. An alien then gets out of the meteorite and explodes, and the world ends.
+**Example animation** https://youtu.be/EJcTyilz-CI
+
 ## How to Use
 1. Run the AnimationCreator.py file
 2. Use the buttons on the left toolbar to select colours and shapes/lines to draw with
@@ -11,4 +14,4 @@ Simple animation tool that creates a video animation from user-drawn images.
 ## Definitions/Terms
 **Frame:** Every different drawing is a frame. You can create new frames, delete frames, clear frames, and go back and forth between viewing different frames by pressing the buttons on the right toolbar.
 
-**Scene:** Scenes are like backgrounds. They make it easy to draw multiple similar frames without redrawing the entire frame every single time. You can create a scene by drawing it on a frame then click the "NEW SCN" button. To draw a scene that you have already created onto another frame, press the "LOAD SCN" button.
+**Scene:** Scenes are like backgrounds. They make it easy to draw multiple similar frames without redrawing the entire frame every single time. You can create a scene by drawing it on a frame then click the "NEW SCN" button. To draw a scene that you have already created onto another frame, press the "LOAD SCN" button. 
