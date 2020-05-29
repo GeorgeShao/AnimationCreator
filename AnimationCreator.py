@@ -85,11 +85,11 @@ def on_draw():
     try:
         frames[current_frame-1].draw()
     except Exception as e:
-        print("ERROR:", e)
+        pass
     try:
         toolbar.draw()
     except Exception as e:
-        print("ERROR:", e)
+        pass
     
     render_toolbar_icons()
     render_toolbar_text()

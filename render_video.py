@@ -2,7 +2,7 @@ import cv2
 import os
 
 def run(frames_per_image: int):
-    dir_path = './res/frames'
+    dir_path = './data/frames'
     ext = 'png'
     output = 'output.mp4'
 
