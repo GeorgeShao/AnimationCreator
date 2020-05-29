@@ -347,7 +347,6 @@ def on_mouse_press(x, y, button, modifiers):
 
     # Render functionality
     if x < 100 and y > 750:
-        arcadeplus.play_sound(snd_btn_press)
         if all(captured):
             gui.theme('Dark Blue 3')
             layout = [  [gui.Text("Frames per Image (positive integer): "), gui.InputText("20")],
