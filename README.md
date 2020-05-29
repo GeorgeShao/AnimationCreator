@@ -3,7 +3,7 @@ Simple animation tool that creates a video animation from user-drawn images.
 
 Linked below is a short example animation that I made entirely using AnimationCreator. In this animation, a meteor falls from the sky and lands in the ocean. An alien then gets out of the meteorite and explodes, and the world ends.
 
-**Example animation** https://youtu.be/EJcTyilz-CI
+**Example animation:** https://youtu.be/EJcTyilz-CI
 
 ## How to Use
 1. Run the AnimationCreator.py file
