@@ -34,18 +34,18 @@ captured = [False]
 
 # Create resource directories
 try:
-    os.makedirs("res/frames")
-    print("Directory \"res/frames\" Created")
+    os.makedirs("data/frames")
+    print("Directory \"data/frames\" Created")
 except:
-    print("Directory \"res/frames\" Already Exists")
+    print("Directory \"data/frames\" Already Exists")
 try:
-    os.makedirs("res/scenes")
-    print("Directory \"res/scenes\" Created")
+    os.makedirs("data/scenes")
+    print("Directory \"data/scenes\" Created")
 except:
-    print("Directory \"res/scenes\" Already Exists")
+    print("Directory \"data/scenes\" Already Exists")
 
 def list_scenes():
-    path = sys.argv[0][:-20] + "/res/scenes"
+    path = sys.argv[0][:-20] + "/data/scenes"
     files = []
     for r, d, f in os.walk(path):
         for f1 in f:
@@ -77,7 +77,7 @@ def on_draw():
     arcadeplus.start_render()
     
     if (current_frame-1) in linked_scenes.keys():
-        background_texture = arcadeplus.load_texture("res/scenes/" + linked_scenes[current_frame-1] + ".png")
+        background_texture = arcadeplus.load_texture("data/scenes/" + linked_scenes[current_frame-1] + ".png")
         arcadeplus.draw_texture_rectangle(center_x=500, center_y=400, width=800, height=800, texture=background_texture)
     try:
         frames[current_frame-1].draw()
@@ -127,7 +127,7 @@ def render_toolbar_icons():
     index = 0
     for img_name in img_names:
         try:
-            background_texture = arcadeplus.load_texture("icons/" + img_name + ".png")
+            background_texture = arcadeplus.load_texture("res/icons/" + img_name + ".png")
             arcadeplus.draw_texture_rectangle(center_x=925, center_y=625 - (index*50), width=40, height=40, texture=background_texture)
         except:
             pass
@@ -136,7 +136,7 @@ def render_toolbar_icons():
     index = 0
     for img_name in img_names:
         try:
-            background_texture = arcadeplus.load_texture("icons/" + img_name + ".png")
+            background_texture = arcadeplus.load_texture("res/icons/" + img_name + ".png")
             arcadeplus.draw_texture_rectangle(center_x=975, center_y=625 - (index*50), width=40, height=40, texture=background_texture)
         except:
             pass
@@ -251,7 +251,7 @@ def on_mouse_press(x, y, button, modifiers):
                     break
                 if str(values[1]).strip() != "":
                     image = arcadeplus.get_image(100, 0, 800, 800)
-                    image.save(f"res/scenes/{str(values[1]).strip()}.png", "PNG")
+                    image.save(f"data/scenes/{str(values[1]).strip()}.png", "PNG")
                     linked_scenes[current_frame-1] = str(values[1]).strip()
                     frames[current_frame-1] = arcadeplus.ShapeElementList()
                     print('New Scene Created From Current Frame:', str(values[1]).strip())
@@ -326,7 +326,7 @@ def on_mouse_press(x, y, button, modifiers):
     if x > 900 and y > 750:
         image = arcadeplus.get_image(100, 0, 800, 800)
         current_frame_name = (10-len(str(current_frame)))*"0" + str(current_frame)
-        image.save(f"res/frames/{current_frame_name}.png", "PNG")
+        image.save(f"data/frames/{current_frame_name}.png", "PNG")
         print("Captured Frame")
         captured[current_frame-1] = True
 
