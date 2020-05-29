@@ -14,4 +14,4 @@ Linked below is a short example animation that I made entirely using AnimationCr
 ## Definitions/Terms
 **Frame:** Every different drawing is a frame. You can create new frames, delete frames, clear frames, and go back and forth between viewing different frames by pressing the buttons on the right toolbar.
 
-**Scene:** Scenes are like backgrounds. They make it easy to draw multiple similar frames without redrawing the entire frame every single time. You can create a scene by drawing it on a frame then click the "NEW SCN" button. To draw a scene that you have already created onto another frame, press the "LOAD SCN" button. 
+**Scene:** Scenes are like backgrounds. They make it easy to draw multiple similar frames without redrawing the entire frame every single time. You can create a scene by drawing it on a frame then click the "NEW SCN" button. To draw a scene that you have already created onto another frame, press the "LOAD SCN" button.
