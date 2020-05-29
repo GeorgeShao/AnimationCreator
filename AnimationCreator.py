@@ -234,7 +234,7 @@ def on_mouse_press(x, y, button, modifiers):
             chosen_shape_column = 1
         elif y <= 450:
             arcadeplus.play_sound(snd_btn_press)
-            chosen_color_row = y/50 + 1
+            chosen_color_row = y//50 + 1
             chosen_color_column = 1
     elif x <= 100:
         if 450 <= y <= 750:
@@ -421,7 +421,8 @@ def setup():
 
     arcadeplus.open_window(WIDTH, HEIGHT, "AnimationCreator")
     arcadeplus.set_background_color(arcadeplus.color.WHITE)
-    arcadeplus.schedule(on_update, 1/60)
+    scheduling_update_time = 0.01666666666 # float value is same as 1/60
+    arcadeplus.schedule(on_update, scheduling_update_time)
 
     # Create Vertex Buffer Object (VBO) shape lists
     frames.append(arcadeplus.ShapeElementList())
