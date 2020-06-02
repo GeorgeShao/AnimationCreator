@@ -379,7 +379,6 @@ def on_mouse_press(x, y, button, modifiers):
 
     # About button functionality
     if x > 900 and y < 50:
-        arcadeplus.play_sound(snd_btn_press)
         gui.theme('Dark Blue 3')
         layout = [  [gui.Text("AnimationCreator was created by George Shao")],
                     [gui.Text("Find out more at: https://github.com/GeorgeShao/AnimationCreator")],
