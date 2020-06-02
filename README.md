@@ -9,7 +9,7 @@ Linked below is a short example animation that I made entirely using AnimationCr
 1. Run the AnimationCreator.py file
 2. Use the buttons on the left toolbar to select colours and shapes/lines to draw with
 3. Use the buttons on the right toolbar to manage the frames/scenes
-4. When done drawing a frame, click the "CAPTURE" button at the top right of the screen to capture the frame and prepare it for rendering
+4. When done drawing a frame, click the "CAPTURE" button at the top right of the screen for every frame, in order to capture the frame and prepare it for rendering
 5. When done creating the entire animation, click the "RENDER" button at the top left of the screen to render the video animation
 
 ## Definitions/Terms
