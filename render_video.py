@@ -1,15 +1,17 @@
 import cv2
 import os
 
-def run(frames_per_image: int):
+def run(frames_per_image: int, num_frames: int):
     dir_path = './data/frames'
     ext = 'png'
     output = 'output.mp4'
 
     images = []
     for f in os.listdir(dir_path):
+        print(f)
         if f.endswith(ext):
-            images.append(f)
+            if int(f[:10]) <= num_frames:
+                images.append(f)
 
     image_path = os.path.join(dir_path, images[0])
     frame = cv2.imread(image_path)
