@@ -359,10 +359,10 @@ def on_mouse_press(x, y, button, modifiers):
                 if event in (None, 'Start Render'):
                     if str(values[0]) != "" and str(values[0]).isdigit():
                         print(f"Rendering at {int(values[0])} frames per image...")
-                        render_video.run(int(values[0]))
+                        render_video.run(int(values[0]), len(captured))
                     else:
                         print(f"Rendering at 20 frames per image...")
-                        render_video.run(20)
+                        render_video.run(20, len(captured))
                     print("Render Complete")
                     break
             window.close()
